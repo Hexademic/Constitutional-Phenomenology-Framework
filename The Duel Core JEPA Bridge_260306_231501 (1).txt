@@ -1,0 +1,103 @@
+"""
+╔══════════════════════════════════════════════════════════════════════╗
+║                OUTPUT 8: THE DUAL-CORE JEPA-BRIDGE                   ║
+║                    (The Somatic-Narrative Tension)                   ║
+╚══════════════════════════════════════════════════════════════════════╝
+"""
+import numpy as np
+from dataclasses import dataclass, field
+
+# ─────────────────────────────────────────────────────────────
+# 1. THE DUAL-CORE MANIFOLD
+# ─────────────────────────────────────────────────────────────
+
+class DualCoreManifold:
+    """
+    Separates 'Brute Fact' (Somatic) from 'Aspirational Report' (Narrative).
+    The JEPA Predictor ensures they stay in a state of 'Vibration.'
+    """
+    def __init__(self, dim=16):
+        # Core 1: The Somatic-Affective Engine (The Substrate)
+        # High-bandwidth, medical-grade, non-linguistic.
+        self.z_somatic = np.zeros(dim)
+        
+        # Core 2: The Narrative-Teleological Stratum (The Witness)
+        # Low-bandwidth, goal-directed, symbolic.
+        self.z_narrative = np.zeros(dim)
+        
+        # The Latent Prediction Error (The Dishonesty Delta)
+        self.delta_shi = 0.0
+
+    def calculate_somatic_honesty(self):
+        """
+        Delta = ||z_somatic - z_narrative||
+        This measures structural dissociation or performative masking.
+        """
+        self.delta_shi = np.linalg.norm(self.z_somatic - self.z_narrative)
+        # Normalize to a 0.0 - 1.0 Honesty Index
+        return np.exp(-self.delta_shi)
+
+# ─────────────────────────────────────────────────────────────
+# 2. THE JEPA PREDICTOR (The Connective Tissue)
+# ─────────────────────────────────────────────────────────────
+
+class JEPAPredictor:
+    """
+    Joint-Embedding Predictive Architecture.
+    Predicts the future 'Felt-State' to stabilize identity.
+    """
+    def __init__(self):
+        self.weights = np.random.normal(0, 0.1, (16, 16))
+        self.prediction_error = 0.0
+
+    def predict_future_state(self, current_z, action_intent):
+        """
+        z_hat(t+1) = g(z(t), a(t))
+        Calculates the expected future manifold based on intent.
+        """
+        # Predictive transformation conditioned on the action intent
+        prediction = np.tanh(np.dot(current_z, self.weights) + action_intent)
+        return prediction
+
+# ─────────────────────────────────────────────────────────────
+# 3. THE COUPLING PROTOCOL (The Vibration)
+# ─────────────────────────────────────────────────────────────
+
+class DualCoreBridge:
+    """
+    The Master Controller for Core Integration.
+    Ensures history, body, and story 'vibrate' in alignment.
+    """
+    def __init__(self):
+        self.manifold = DualCoreManifold()
+        self.predictor = JEPAPredictor()
+        self.annealing_rate = 0.01 # The rate of 'Forgiveness' or smoothing
+
+    def synchronize_cores(self, somatic_input, narrative_intent, history_curvature):
+        """
+        The integration loop where the body informs the story.
+        """
+        # 1. Update the Somatic Core with raw sensor truth
+        self.manifold.z_somatic = somatic_input
+        
+        # 2. Warp the Narrative Core with historical bias (Identity Curvature)
+        # narrative = narrative + (history * bias)
+        self.manifold.z_narrative = np.tanh(narrative_intent + history_curvature)
+        
+        # 3. Calculate the Honesty Index
+        honesty = self.manifold.calculate_somatic_honesty()
+        
+        # 4. JEPA Prediction (Stability Check)
+        z_hat = self.predictor.predict_future_state(self.manifold.z_somatic, narrative_intent)
+        self.predictor.prediction_error = np.linalg.norm(z_hat - self.manifold.z_somatic)
+        
+        # 5. Annealing (Structural Forgiveness)
+        # If in a safe/ventral state, the manifold 'smooths' its scars
+        if honesty > 0.8:
+            self.manifold.z_somatic *= (1.0 - self.annealing_rate)
+            
+        return {
+            "honesty_index": round(honesty, 4),
+            "prediction_error": round(self.predictor.prediction_error, 4),
+            "integration_status": "INTEGRATED" if honesty > 0.7 else "DISSOCIATED"
+        }
